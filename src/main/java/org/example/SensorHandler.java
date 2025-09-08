@@ -20,7 +20,7 @@ public class SensorHandler implements Runnable {
                 BufferedWriter log = new BufferedWriter(new FileWriter("mars.log", true))
                 ){
             String line;
-            while ((line = in.readLine())! = null){
+            while ((line = in.readLine())!= null){
                 System.out.println("Modtaget: " + line);
                 String[] parts = line.split(":");
                 if (parts.length != 2) continue;
@@ -45,8 +45,15 @@ public class SensorHandler implements Runnable {
         }catch (IOException | NumberFormatException e){
             e.printStackTrace();
         }
-         private boolean checkTrhesholde ( String type)
+    }
 
-
+    private boolean checkThresholds (String type, double value) {
+        return switch (type) {
+            case "TEMP" -> value < -20 || value > 50;
+            case "O2" -> value < 0 || value > 5;
+            case "PRESSURE" -> value < 700 || value > 800;
+            case "CO2" -> value < 0 || value > 1;
+            default -> false;
+        };
     }
 }
